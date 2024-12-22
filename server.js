@@ -27,7 +27,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const corsOptions = {
-    origin: [URL, 'https://inventorymaster.vercel.app', 'http://127.0.0.1:5173'],
+    origin: [URL, 'https://inventorymaster.vercel.app', 'http://127.0.0.1:5173', 'https://bnt11-frontend-camilo-estradas-projects.vercel.app'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos,
     credentials: true,
 };
 
