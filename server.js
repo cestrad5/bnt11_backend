@@ -34,6 +34,7 @@ const corsOptions = {
         'https://inventorymaster.vercel.app',
         'http://127.0.0.1:5173',
         'https://bnt11-frontend-camilo-estradas-projects.vercel.app',
+        'https://bnt11-frontend.vercel.app' 
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
@@ -50,16 +51,16 @@ app.use((req, res, next) => {
 
 // Helmet para seguridad
 app.use(
-    helmet.contentSecurityPolicy({
-        directives: {
-            defaultSrc: ["'self'"],
-            connectSrc: ["'self'", URL],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
-            styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-            imgSrc: ["'self'", 'data:'],
-            objectSrc: ["'none'"],
-        },
-    })
+  helmet.contentSecurityPolicy({
+      directives: {
+          defaultSrc: ["'self'"],
+          connectSrc: ["'self'", URL, 'https://bnt11-frontend.vercel.app'],  // Add the new domain
+          scriptSrc: ["'self'", "'unsafe-inline'"],
+          styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
+          imgSrc: ["'self'", 'data:'],
+          objectSrc: ["'none'"],
+      },
+  })
 );
 
 // Otros middlewares
