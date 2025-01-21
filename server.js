@@ -39,6 +39,10 @@ const corsOptions = {
     ],
     methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'],
     credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['set-cookie'],
+    sameSite: 'none',
+    secure: true
 };
 app.use(cors(corsOptions));
 
@@ -47,6 +51,13 @@ app.use((req, res, next) => {
     console.log('Origin:', req.headers.origin);
     console.log('Method:', req.method);
     console.log('Path:', req.path);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE');
+    res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    );
     next();
 });
 

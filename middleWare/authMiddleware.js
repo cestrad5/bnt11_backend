@@ -11,27 +11,30 @@ const jwt = require('jsonwebtoken');
  * @throws {Error} If the user is not authorized, an error is thrown with a corresponding message.
  */
 const protect = asyncHandler(async (req, res, next) => {
-    try {
-        const token = req.cookies.token;
-        if(!token) {
-            res.status(401);
-            throw new Error('Not authorized, please login');
-        }
+  try {
+      const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+      
+      if (!token) {
+          res.status(401);
+          throw new Error('Not authorized, please login');
+      }
 
-        //Verify Token
-        const verified = jwt.verify(token, process.env.JWT_SECRET);
-        //Get use id from token
-        const user = await User.findById(verified.id).select('-password');
-        if(!user){
-            res.status(401);
-            throw new Error('User not found'); 
-        }
-        req.user = user;
-        next();
-    } catch (error) {
-        res.status(401);
-        throw new Error('Not authorized, please login'); 
-    }
+      // Verify Token
+      const verified = jwt.verify(token, process.env.JWT_SECRET);
+      
+      // Get user id from token
+      const user = await User.findById(verified.id).select('-password');
+      if (!user) {
+          res.status(401);
+          throw new Error('User not found');
+      }
+      
+      req.user = user;
+      next();
+  } catch (error) {
+      res.status(401);
+      throw new Error('Not authorized, please login');
+  }
 });
 
 module.exports = protect;
