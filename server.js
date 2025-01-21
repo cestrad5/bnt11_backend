@@ -33,10 +33,11 @@ const corsOptions = {
         URL,
         'https://inventorymaster.vercel.app',
         'http://127.0.0.1:5173',
+        'http://localhost:5173',
         'https://bnt11-frontend-camilo-estradas-projects.vercel.app',
         'https://bnt11-frontend.vercel.app' 
     ],
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'],
     credentials: true,
 };
 app.use(cors(corsOptions));
