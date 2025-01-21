@@ -29,20 +29,11 @@ const PORT = process.env.PORT || 5000;
 
 // Configuración de CORS
 const corsOptions = {
-    origin: [
-        URL,
-        'https://inventorymaster.vercel.app',
-        'http://127.0.0.1:5173',
-        'http://localhost:5173',
-        'https://bnt11-frontend-camilo-estradas-projects.vercel.app',
-        'https://bnt11-frontend.vercel.app' 
-    ],
-    methods: ['GET', 'POST', 'PUT','PATCH', 'DELETE'],
+  origin: true, // Esto permite cualquier origen en desarrollo
     credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['set-cookie'],
-    sameSite: 'none',
-    secure: true
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+    exposedHeaders: ['set-cookie']
 };
 app.use(cors(corsOptions));
 
@@ -51,13 +42,10 @@ app.use((req, res, next) => {
     console.log('Origin:', req.headers.origin);
     console.log('Method:', req.method);
     console.log('Path:', req.path);
-    res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE');
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    );
+    res.header('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     next();
 });
 

@@ -41,13 +41,14 @@ const registerUser = asyncHandler(async (req, res) => {
 
     const token = generateToken(user._id);
 
-    res.cookie('token', token, {
-        path: '/',
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: 'none',
-        secure: true,
-    });
+    res.cookie("token", token, {
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      partitioned: true // Esto es específico para iOS 17
+  });
 
     const { _id } = user;
     res.status(200).json({
@@ -84,13 +85,14 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const token = generateToken(user._id);
 
-    res.cookie('token', token, {
-        path: '/',
-        httpOnly: true,
-        maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: 'none',
-        secure: true,
-    });
+    res.cookie("token", token, {
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      partitioned: true // Esto es específico para iOS 17
+  });
 
     const { _id, name } = user;
     res.status(200).json({
@@ -108,11 +110,12 @@ const loginUser = asyncHandler(async (req, res) => {
  */
 const logout = asyncHandler(async (req, res) => {
     res.cookie('token', '', {
-        path: '/',
-        httpOnly: true,
-        maxAge: 0,
-        sameSite: 'none',
-        secure: true,
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 0,
+      partitioned: true // Esto es específico para iOS 17
     });
     return res.status(200).json({ message: 'Successfully Logged Out' });
 });

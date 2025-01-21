@@ -12,23 +12,28 @@ const jwt = require('jsonwebtoken');
  */
 const protect = asyncHandler(async (req, res, next) => {
   try {
-      const token = req.cookies.token || req.headers.authorization?.split(' ')[1];
+      let token;
       
+      // Intenta obtener el token de diferentes fuentes
+      if (req.cookies.token) {
+          token = req.cookies.token;
+      } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+          token = req.headers.authorization.split(' ')[1];
+      }
+
       if (!token) {
           res.status(401);
           throw new Error('Not authorized, please login');
       }
 
-      // Verify Token
       const verified = jwt.verify(token, process.env.JWT_SECRET);
-      
-      // Get user id from token
       const user = await User.findById(verified.id).select('-password');
+      
       if (!user) {
           res.status(401);
           throw new Error('User not found');
       }
-      
+
       req.user = user;
       next();
   } catch (error) {
