@@ -29,7 +29,7 @@ const PORT = process.env.PORT || 5000;
 
 // Configuración de CORS
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'https://bnt11-frontend.vercel.app',
+  origin: true,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
