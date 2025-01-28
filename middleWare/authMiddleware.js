@@ -44,13 +44,13 @@ const protect = asyncHandler(async (req, res, next) => {
                 });
 
                 // Configuración específica de cookies para iOS
-                res.cookie('token', newToken, {
-                    httpOnly: true,
-                    secure: process.env.NODE_ENV === 'production',
-                    sameSite: 'Strict',
-                    maxAge: 24 * 60 * 60 * 1000, // 1 día
-                    path: '/',
-                    domain: process.env.COOKIE_DOMAIN || undefined
+                res.cookie('token', token, {
+                  httpOnly: true,
+                  secure: true, // Requires HTTPS
+                  sameSite: 'None', // Required for cross-origin requests
+                  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+                  path: '/',
+                  partitioned: true // Required for iOS 17+
                 });
             }
 

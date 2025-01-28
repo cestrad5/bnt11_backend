@@ -109,14 +109,14 @@ const loginUser = asyncHandler(async (req, res) => {
  * @returns {Object} A response indicating that the user has been successfully logged out.
  */
 const logout = asyncHandler(async (req, res) => {
-    res.cookie('token', '', {
-      path: '/',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'none',
-      maxAge: 0,
-      partitioned: true // Esto es específico para iOS 17
-    });
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: true, // Requires HTTPS
+    sameSite: 'None', // Required for cross-origin requests
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    path: '/',
+    partitioned: true // Required for iOS 17+
+  });
     return res.status(200).json({ message: 'Successfully Logged Out' });
 });
 
